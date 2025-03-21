@@ -117,8 +117,9 @@ def index(request):
 
 {% block body %}
     {% for article in articles %}
-        <h1>{{article.title}}</h1>
+        <h3>{{article.title}}</h3>
         <p>{{article.content}}</p>
+        <hr>
     {% endfor %}
 {% endblock %}
 ```
