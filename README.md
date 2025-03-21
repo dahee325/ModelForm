@@ -10,7 +10,8 @@
 - `django-admin startapp articles`
 - `modelForm/settings.py` : `articles`앱 등록
 
-## 01.
+## 01. 
+### Modeling
 - `articles/models.py`
 ```python
 from django.db import models
@@ -23,6 +24,6 @@ class Article(models.Model):
     updated_at = models.DateTimeField(auto_now=True) # 수정된 시간, auto_now=True : 데이터가 저장되는 순간들을 계속해서 저장
 ```
 
-- **번역**
+### Migration
 - `python manage.py makemigrations`
 - `python manage.py migrate`
