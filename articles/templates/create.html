@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <form action="" method="POST">
+    <!--action=""을 비워두면 현재 위치로 다시 보냄(대신 GET에서 POST로 바뀜)
+    => create함수의 if문으로 이동-->
+        {% csrf_token %}
+        {{form}}
+        <input type="submit">
+    </form>
+{% endblock %}
