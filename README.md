@@ -123,7 +123,7 @@ def index(request):
 {% endblock %}
 ```
 
-### CREATE : 모델폼 만들기
+### CREATE(Ver.1) : 모델폼 만들기
 - `articles/forms.py`파일 생성
 ```python
 from django.forms import ModelForm
@@ -216,4 +216,62 @@ def create(request):
             'form': form,
         }
         return render(request, 'create.html', context)
+```
+
+### CREATE(Ver.2)
+- `articles/views.py`
+```python
+def create(request):
+    if request.method == 'POST':
+        form = ArticleForm(request.POST) # request.POST의 딕셔너리 값을 html으로 바꿔줌
+        if form.is_valid(): # validation : form에 있는 데이터가 유효한가요?
+            form.save() # 있다면 저장
+            return redirect('articles:index')
+
+    else: # 먼저 실행됨
+        form = ArticleForm()
+
+    # else일 경우 항상 실행
+    context = {
+        'form': form,
+    }
+    return render(request, 'create.html', context)
+```
+
+**모든 경우의 수**
+- GET : form을 만들어서 html 문서를 사용자에게 리턴
+- POST : invalid data (데이터 검증 실패)
+- POST : valid data (데이터 검증 성공)
+```python
+def create(request):
+
+    # 5. POST 요청(invalid data)
+    # 10. POST 요청(valid data)
+    if request.method == 'POST':
+        # 6. 사용자가 입력한 데이터(request.POST)를 담은 form 생성(invalid, 유효하지않음)
+        # 11. 사용자가 입력한 데이터(request.POSt)를 담은 form 생성(valid, 유효함)
+        form = ArticleForm(request.POST)
+
+        # 7. form 검증(실패)
+        # 12. form 검증(성공)
+        if form.is_valid():
+            # 13. form 저장
+            form.save()
+            # 14. index로 redirect
+            return redirect('articles:index')
+
+    # 1. GET 요청
+    else:
+        # 2. 비어있는 form을 만든다.
+        form = ArticleForm()
+
+    # 3. context dict에 비어있는 form을 담는다.
+    # 8. context dict에 검증에 실패한 form을 담는다.
+    context = {
+        'form': form,
+    }
+
+    # 4. create.html 랜더링
+    # 9. create.html 랜더링 - 잘못 작성한 데이터만 잘못 적으라고 알려줌
+    return render(request, 'create.html', context)
 ```
