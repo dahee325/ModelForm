@@ -27,3 +27,45 @@ class Article(models.Model):
 ### Migration
 - `python manage.py makemigrations`
 - `python manage.py migrate`
+
+### admin에 Article추가
+- `articles/admin.py`
+```python
+from django.contrib import admin
+from .models import Article
+
+# Register your models here.
+admin.site.register(Article)
+```
+
+### superuser 등록
+- `python manage.py createsuperuser` : admin, , 1234, 1234, y
+
+### 공통 base.html 설정
+- 폴더의 최상단(`modelform/`)에 `templates`파일 생성 => `modelForm/settings.py`에 등록
+```python
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR/'templates'],
+        ...
+    },
+]
+```
+- `modelsform/templastes`폴더에 `base.html`파일 생성
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>여기는 base</h1>
+    {% block body %}
+
+    {% endblock %}
+</body>
+</html>
+```
