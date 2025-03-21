@@ -42,7 +42,7 @@ admin.site.register(Article)
 - `python manage.py createsuperuser` : admin, , 1234, 1234, y
 
 ### 공통 base.html 설정
-- 폴더의 최상단(`modelform/`)에 `templates`파일 생성 => `modelForm/settings.py`에 등록
+- 폴더의 최상단(`MODELFORM/`)에 `templates`파일 생성 => `modelForm/settings.py`에 등록
 ```python
 TEMPLATES = [
     {
@@ -52,7 +52,7 @@ TEMPLATES = [
     },
 ]
 ```
-- `modelsform/templastes`폴더에 `base.html`파일 생성
+- `MODELFIRM/templastes`폴더에 `base.html`파일 생성
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -68,4 +68,58 @@ TEMPLATES = [
     {% endblock %}
 </body>
 </html>
+```
+
+### 기본 url설정
+- `modelform/urls.py`
+```python
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('articles/', include('articles.urls')),
+]
+```
+
+### Read(ALL)
+- `articles/urls.py`생성
+```python
+from django.urls import path
+from . import views
+
+app_name = 'articles'
+
+urlpatterns = [
+    # Read
+    path('', views.index, name='index'),
+]
+```
+
+- `articles/vews.py` : 전체 게시물 불러오기
+```python
+from django.shortcuts import render
+from .models import Article
+
+# Create your views here.
+
+def index(request):
+    articles = Article.objects.all()
+    context = {
+        'articles': articles
+    }
+    return render(request, 'index.html', context)
+```
+
+### Read(1)
+- `articles/`dp `templates`폴더 생성 => `index.html`파일 생성
+```html
+{% extends 'base.html' %}
+
+{% block body %}
+    {% for article in articles %}
+        <h1>{{article.title}}</h1>
+        <p>{{article.content}}</p>
+    {% endfor %}
+{% endblock %}
 ```
