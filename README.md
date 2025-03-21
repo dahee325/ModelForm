@@ -1,7 +1,7 @@
-# MODELFORM
+# ModelForm
 -  데이터와 데이터를 입력받을 수 있는 폼을 합쳐놓은 것
 
-## 00.settings
+## 00. settings
 - `python -m venv venv`
 - `source venv/Scripts/activate`
 - `pip install django`
@@ -10,7 +10,7 @@
 - `django-admin startapp articles`
 - `modelForm/settings.py` : `articles`앱 등록
 
-## 01. 
+## 01. Django
 ### Modeling
 - `articles/models.py`
 ```python
@@ -82,7 +82,7 @@ urlpatterns = [
 ]
 ```
 
-### Read(ALL)
+## 02. Read(ALL)
 - `articles/urls.py`생성
 ```python
 from django.urls import path
@@ -123,7 +123,7 @@ def index(request):
 {% endblock %}
 ```
 
-### CREATE(Ver.1) : 모델폼 만들기
+## 03-1. CREATE(Ver.1) : 모델폼 만들기
 - `articles/forms.py`파일 생성
 ```python
 from django.forms import ModelForm
@@ -218,7 +218,7 @@ def create(request):
         return render(request, 'create.html', context)
 ```
 
-### CREATE(Ver.2)
+## 03-2. CREATE(Ver.2)
 - `articles/views.py`
 ```python
 def create(request):
